@@ -1,0 +1,173 @@
+Gramática
+
+    0 $accept: list $end
+
+    1 list: apare aux empty NL
+    2     | apare aux letter atom_part NL
+    3     | apare aux number atom_part NL
+
+    4 aux: s_expression aux
+    5    | s_expression cpare
+
+    6 s_expression: exprex
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+error (256)
+exprex (258) 6
+apare (259) 1 2 3
+cpare (260) 5
+letter (261) 2
+number (262) 3
+atom_part (263) 2 3
+empty (264) 1
+NL (265) 1 2 3
+
+
+No terminales con las reglas donde aparecen
+
+$accept (11)
+    en la izquierda: 0
+list (12)
+    en la izquierda: 1 2 3, en la derecha: 0
+aux (13)
+    en la izquierda: 4 5, en la derecha: 1 2 3 4
+s_expression (14)
+    en la izquierda: 6, en la derecha: 4 5
+
+
+estado 0
+
+    0 $accept: . list $end
+
+    apare  shift, and go to state 1
+
+    list  go to state 2
+
+
+estado 1
+
+    1 list: apare . aux empty NL
+    2     | apare . aux letter atom_part NL
+    3     | apare . aux number atom_part NL
+
+    exprex  shift, and go to state 3
+
+    aux           go to state 4
+    s_expression  go to state 5
+
+
+estado 2
+
+    0 $accept: list . $end
+
+    $end  shift, and go to state 6
+
+
+estado 3
+
+    6 s_expression: exprex .
+
+    $default  reduce using rule 6 (s_expression)
+
+
+estado 4
+
+    1 list: apare aux . empty NL
+    2     | apare aux . letter atom_part NL
+    3     | apare aux . number atom_part NL
+
+    letter  shift, and go to state 7
+    number  shift, and go to state 8
+    empty   shift, and go to state 9
+
+
+estado 5
+
+    4 aux: s_expression . aux
+    5    | s_expression . cpare
+
+    exprex  shift, and go to state 3
+    cpare   shift, and go to state 10
+
+    aux           go to state 11
+    s_expression  go to state 5
+
+
+estado 6
+
+    0 $accept: list $end .
+
+    $default  accept
+
+
+estado 7
+
+    2 list: apare aux letter . atom_part NL
+
+    atom_part  shift, and go to state 12
+
+
+estado 8
+
+    3 list: apare aux number . atom_part NL
+
+    atom_part  shift, and go to state 13
+
+
+estado 9
+
+    1 list: apare aux empty . NL
+
+    NL  shift, and go to state 14
+
+
+estado 10
+
+    5 aux: s_expression cpare .
+
+    $default  reduce using rule 5 (aux)
+
+
+estado 11
+
+    4 aux: s_expression aux .
+
+    $default  reduce using rule 4 (aux)
+
+
+estado 12
+
+    2 list: apare aux letter atom_part . NL
+
+    NL  shift, and go to state 15
+
+
+estado 13
+
+    3 list: apare aux number atom_part . NL
+
+    NL  shift, and go to state 16
+
+
+estado 14
+
+    1 list: apare aux empty NL .
+
+    $default  reduce using rule 1 (list)
+
+
+estado 15
+
+    2 list: apare aux letter atom_part NL .
+
+    $default  reduce using rule 2 (list)
+
+
+estado 16
+
+    3 list: apare aux number atom_part NL .
+
+    $default  reduce using rule 3 (list)

@@ -1,0 +1,4 @@
+
+    Las reglas asignadas fueron: (Me toco un diagrama y lo pase a notacion EBNF para mayor claridad)
+
+    list ::= "("{s_expression}")"(empty|letter atom_part|number);
